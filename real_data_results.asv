@@ -1,0 +1,14 @@
+clear
+clc
+close all
+
+%load data
+load('data/ex3_S.mat');
+load('data/ex3_T.mat');
+load('data/ex3_U.mat');
+load('data/ex3_S_cell_label.mat');
+load('data/ex3_T_cell_label.mat'); 
+
+%coupleCoC+
+[Cx, Cy, Cz, Cz0, cluster_p, cluster_q, cluster_q0, obj, matm] = coupleCoC_plus(p,q,q0,2,2,5,8,20,0.1,0.6,1,2);
+[TAB_X, TAB_Y, Eval_tab] = clu_eval(Cx_truth, Cy_truth, Cx, Cy)
