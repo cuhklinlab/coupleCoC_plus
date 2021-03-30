@@ -178,3 +178,56 @@ raw_data_y0 = strong_signal(Y_raw_unlink[cell_order_Y,gene_order0],CY_best,rowse
 heatmap_cent(raw_data_y0,CZ0_best)
 ```
 ![alt text](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/images/hm_U.png "Unlinked target data")
+
+## 4. One example for simulation study by coupleCoC+, coupleCoC and CoC
+```MATLAB
+%% input data for the setting 6 in simulation study
+load('data/rna_simu_sy.mat');
+load('data/atac_simu_sy.mat');
+load('data/rna_clu_simu_sy.mat');
+load('data/atac_clu_simu_sy.mat');
+load('data/rna_simu_auxi_syv12.mat');
+
+p=200;maxiter=30;
+Eval_x = zeros(16,maxiter);Eval_y = zeros(16,maxiter);
+
+%% We need to use for loops i = 1:30 and average the results. Here we only try i = 1.
+i = 1;
+ind = ((i-1)*p+1):(i*p); 
+X = atac_simu(:,ind); Cx_truth = atac_clu_simu(:,i); % auxiliary data
+Y_link = rna_simu(:,ind); Cy_truth = rna_clu_simu(:,i);  % target data
+Y_unlink = log(rna_simu_auxi(:,ind)+1);
+
+% remove rows and columns that have zero sums
+[X, Y_link, Cx_truth, Cy_truth] = removal_rowcol(X, Y_link, Cx_truth, Cy_truth);
+yczero = sum(Y_unlink,1)==0;Y_unlink(:,yczero)=[];
+Y_full = [Y_link,Y_unlink];
+
+% coupleCoC+
+[Cx, Cy, ~, ~, ~, ~, ~, ~,~] = coupleCoC_plus(X,Y_link,Y_unlink,2,2,3,5,15,2,1,1,2);
+[~, ~, Eval_tab] = clu_eval(Cx_truth, Cy_truth, Cx, Cy);
+Eval_y(1:4,i) = Eval_tab{:,:}(:,2);
+
+% coupleCoC
+[Cx1, Cy1, Cz1, cluster_p1, cluster_q1, obj1] = coupleCoC(X,Y_link,2,2,3,15,2);
+[TAB_X1, TAB_Y1, Eval_tab1] = clu_eval(Cx_truth, Cy_truth, Cx1, Cy1);
+Eval_y(5:8,i) = Eval_tab1{:,:}(:,2);
+
+% CoC
+[Cy2, Cz2, cluster_p2, obj2] = CoC(Y_full,2,3,15);
+[~, TAB_Y2, Eval_tab2] = clu_eval(Cy_truth, Cy_truth, Cy2, Cy2);
+Eval_y(9:12,i) = Eval_tab2{:,:}(:,2);
+
+%k-means
+[idx,~] = kmeans(X,2,'MaxIter',10000,'Replicates',15);
+[idy,~] = kmeans(Y_full,2,'MaxIter',10000,'Replicates',15);
+[TAB_X5, TAB_Y5, Eval_tab5] = clu_eval(Cx_truth, Cy_truth, idx, idy);
+Eval_y(13:16,i) = Eval_tab5{:,:}(:,2);
+
+Eval_y(:,i)
+```
+
+
+
+
+
