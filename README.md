@@ -17,7 +17,7 @@ To reproduce the results by benchmark methods, you should also install R package
 ```R
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-BiocManager::install(c("SC3", "SIMLR")) # packages for method SC3 and SIMLR
+BiocManager::install(c("SC3", "SIMLR", "BPRMeth")) # packages for methods SC3, SIMLR and BPRMeth
 ```
 ```R
 install.packages("devtools")#only if you have not installed the package "devtools"
@@ -32,6 +32,7 @@ install_github("cuhklinlab/scACE") # package for method scACE
 ```R
 install.packages(c("rliger","Seurat","data.table","Matrix","proxy","Rtsne","densityClust","data.table","irlba","umap","ggplot2")) # packages for methods LIGER, Seurat, Cusanovich2018 and data visualization
 ```
+The matlab code for the remaining benchmark methods (coupleCoC and CoC) are included in this package.
 
 ## Datasets and examples
 Please check the [vigenette](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/vignettes/vignette.md) for a tutorial. Two examples are contained for a quick start of coupleCoC+. The analytical scripts by benchmark methods are also included.
