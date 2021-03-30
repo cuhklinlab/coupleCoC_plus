@@ -248,11 +248,7 @@ ans =
 ```
 
 ## 5. One example for using benchmark methods in the paper
-### LIGER
 ```R
-# LIGER: rna+met
-library(liger)
-
 ## load the data
 load("data/dataS_ex3.Rdata")
 load("data/dataT_ex3.Rdata")
@@ -260,6 +256,12 @@ rna_data_spar <- rna_data_ex1 #source data
 met_data_spar <- atac_data_ex1 #target data including linked part and unlinked part
 colnames(rna_data_spar) <- paste("rna",1:ncol(rna_data_spar),sep='_')
 colnames(met_data_spar) <- paste("met",1:ncol(met_data_spar),sep='_')
+```
+
+### LIGER
+```R
+# LIGER: rna+met
+library(liger)
 
 ## implementation of liger
 rna_met_create <- createLiger(list(rna_data=rna_data_spar,met_data=met_data_spar))
@@ -271,7 +273,6 @@ rna_met_nmf = optimizeALS(rna_met_scale,k=40,remove.missing=T) #non-negative mat
 rna_met_nmf_quantile2 = quantile_norm(rna_met_nmf,do.center=T)
 rna_met_nmf_quantile2_louvain <- louvainCluster(rna_met_nmf_quantile2, resolution = 0.05)
 result <- rna_met_nmf_quantile2_louvain@clusters # this one is used in paper
-
 ```
 
 
