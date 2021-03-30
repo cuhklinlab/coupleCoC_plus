@@ -34,7 +34,7 @@ install.packages(c("rliger","Seurat","data.table","Matrix","proxy","Rtsne","dens
 ```
 
 ## Datasets and examples
-Please check the vigenette () for a tutorial. Two examples are contained for a quick start of coupleCoC+. The analytical scripts by benchmark methods are also included.
+Please check the [vigenette](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/vignettes/vignette.md) for a tutorial. Two examples are contained for a quick start of coupleCoC+. The analytical scripts by benchmark methods are also included.
 
 ## Acknowledgement
 We utilized and modified part of the code of STC algorithm, therefore please refer to the STC code at https://github.com/sykim122/STC.
