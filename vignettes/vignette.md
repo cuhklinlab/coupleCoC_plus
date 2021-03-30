@@ -272,8 +272,15 @@ rna_met_scale@scale.data[[2]] <- max(rna_met_scale@raw.data[[2]]) - t(as.matrix(
 rna_met_nmf = optimizeALS(rna_met_scale,k=40,remove.missing=T) #non-negative matrix factorization
 rna_met_nmf_quantile2 = quantile_norm(rna_met_nmf,do.center=T)
 rna_met_nmf_quantile2_louvain <- louvainCluster(rna_met_nmf_quantile2, resolution = 0.05)
-result <- rna_met_nmf_quantile2_louvain@clusters # this one is used in paper
+result_liger <- rna_met_nmf_quantile2_louvain@clusters # this one is used in paper
 ```
 
+### scACE
+```R
+library(mixtools)
+library(label.switching)
+library(scACE)
+result_scACE <- getClusterGibbs(data_acc=t(rna_data_spar), data_exp=t(met_data_spar), overlap_seq_acc=1:998, overlap_seq_exp=1:1000, nCluster=3, niter=1000)
+```
 
 
