@@ -172,7 +172,7 @@ heatmap_cent(raw_data_y,CZ_best)
 ![alt text](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/images/hm_T.png "Linked target data")
 
 ```R
-## heatmap of clustering results for the linked part of target data, i.e. scMethylation-seq data
+## heatmap of clustering results for the unlinked part of target data
 gene_order0 <- clu_sep(CZ0_best)
 raw_data_y0 = strong_signal(Y_raw_unlink[cell_order_Y,gene_order0],CY_best,rowsepnum_y,N_ave)
 heatmap_cent(raw_data_y0,CZ0_best)
