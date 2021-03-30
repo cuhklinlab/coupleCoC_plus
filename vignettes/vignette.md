@@ -330,3 +330,20 @@ rna_umap2 <- AddMetaData(rna_umap2, metadata = celltype.predictions)
 rna_joint_seurat_label <- celltype.predictions$predicted.id
 
 ```
+
+### SAME-clustering
+```R
+library("SAMEclustering")
+cluster.result_x <- individual_clustering(inputTags = rna_data_spar, datatype = "count", 
+                                          percent_dropout = 10, SC3 = TRUE, CIDR = TRUE, nPC.cidr = NULL, Seurat = FALSE, nPC.seurat = NULL, 
+                                          resolution = 0.9, tSNE = TRUE, dimensions = 2, perplexity = 30, SIMLR = TRUE, diverse = TRUE, SEED = 123)
+cluster.ensemble_x <- SAMEclustering(Y = t(cluster.result_x), rep = 3, SEED = 123);
+CX = cluster.ensemble_x$BICcluster;
+```
+
+### SIMLR
+```R
+library("SIMLR")
+result_simlr = SIMLR_Large_Scale(X = rna_data_spar, c = 2, kk= 10) # we need to tune these parameters
+result_simlr$y$cluster
+```
