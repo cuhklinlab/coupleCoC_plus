@@ -3,7 +3,7 @@
 ## 1. UMAP visualization for the raw data
 
 ```R
-## UMAP visualization for the datasets in example 2 in the paper
+## UMAP visualization for the datasets in example 3 in the paper
 # You need to install the following R packages first
 library('R.matlab')
 library(umap)
@@ -34,18 +34,19 @@ plot.umap(umap_y, labels=as.factor(Cy_truth), main = "A UMAP visualization of sc
 ```
 ![alt text](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/images/ex3_T.png "Source data")
 
+## 2. Implementation of coupleCoC+
 
 ```MATLAB
 clear
 clc
 close all
 
-%%load data (take example 3 for example)
+%%load the processed data in example 3 in the paper
 load('data/S.mat');load('data/T.mat');load('data/U.mat');
 load('data/S_cell_label.mat');load('data/T_cell_label.mat'); 
 
 %%coupleCoC+
-%setting hyperparameters
+%setting the values of hyperparameters
 nrowcluster1=2;nrowcluster2=2;ncolcluster=5;ncolcluster0=8;iter=20;
 lambda=0.1;beta=0.6;gamma=1;nsub=2;
 [Cx, Cy, Cz, Cz0, cluster_p, cluster_q, cluster_q0, obj, matm] = coupleCoC_plus(p,q,q0,nrowcluster1,nrowcluster2,ncolcluster,ncolcluster0,iter,lambda,beta,gamma,nsub);
