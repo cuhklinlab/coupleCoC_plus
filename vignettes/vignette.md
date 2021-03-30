@@ -344,6 +344,31 @@ CX = cluster.ensemble_x$BICcluster;
 ### SIMLR
 ```R
 library("SIMLR")
-result_simlr = SIMLR_Large_Scale(X = rna_data_spar, c = 2, kk= 10) # we need to tune these parameters
+result_simlr = SIMLR_Large_Scale(X = rna_data_spar, c = 2, kk= 10) # we need to tune the parameter kk
 result_simlr$y$cluster
+```
+
+### SC3
+```R
+library('rlang')
+library(SingleCellExperiment)
+library(SC3)
+
+data_acc <- rna_data_spar;
+sce <- SingleCellExperiment(
+  assays = list(
+    counts = data_acc,
+    logcounts = log2(data_acc + 1)
+  ), 
+  colData = true_acc
+)
+
+# define feature names in feature_symbol column
+rowData(sce)$feature_symbol <- rownames(sce)
+# remove features with duplicated names
+sce <- sce[!duplicated(rowData(sce)$feature_symbol), ]
+# define spike-ins
+isSpike(sce, "ERCC") <- grepl("ERCC", rowData(sce)$feature_symbol)
+sce <- sc3(sce, ks = 2, gene_filter = FALSE, biology = TRUE)
+result_SC3 <- as.vector(sce$sc3_2_clusters))
 ```
