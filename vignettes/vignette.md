@@ -22,7 +22,7 @@ colors_CX = colors[1:2]
 umap_x = umap(X)
 plot.umap(umap_x, labels=as.factor(Cx_truth), main = "A UMAP visualization of scRNA-seq data", colors = colors_CX)
 ```
-
+![alt text](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/images/ex2_S.png "Source data")
 
 
 
