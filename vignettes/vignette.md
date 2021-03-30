@@ -159,3 +159,4 @@ raw_data_x = strong_signal(X_raw[cell_order_X,gene_order_Z],CX_best,rowsepnum_x,
 X = raw_data_x;
 heatmap_fun(X, scaleyellowred, colsep, rowsep_x)
 ```
+![alt text](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/images/hm_S.png "Source data")
