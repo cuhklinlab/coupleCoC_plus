@@ -16,13 +16,13 @@ lambda=0.1;beta=0.6;gamma=1;nsub=2;
 [TAB_X, TAB_Y, Eval_tab] = clu_eval(Cx_truth, Cy_truth, Cx, Cy);
 disp(matm)
 
-%%determination of N_sub
+%%determination of Nsub
+N_sub = 2;
 gvalue = [];
-for N_sub=1:2
+for i=1:2
 [~, ~, dis] = swap_label_plus(cluster_p,cluster_q,N_sub);
-gvalue(N_sub)= dis/(N_sub*log(N_sub+1));
+gvalue(i)= dis/(N_sub*log(N_sub+1));
 end
-gvalue
 
 
 
