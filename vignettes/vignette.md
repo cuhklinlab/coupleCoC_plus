@@ -55,3 +55,45 @@ lambda=0.1;beta=0.6;gamma=1;nsub=2;
 [TAB_X, TAB_Y, Eval_tab] = clu_eval(Cx_truth, Cy_truth, Cx, Cy);
 disp(matm)
 ```
+```MATLAB
+>> [TAB_X, TAB_Y, Eval_tab] = clu_eval(Cx_truth, Cy_truth, Cx, Cy)
+TAB_X =
+    0    1401
+   974    8
+
+TAB_Y =
+   386    26
+    11   679
+
+Eval_tab =
+  4×2 table
+                 X          Y   
+              _______    _______
+
+    Purity    0.99664    0.96642
+    RI        0.99331    0.93505
+    ARI        0.9866    0.86946
+    NMI       0.97031    0.78253
+
+>> disp(matm)
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+     1     2     2     1
+```
