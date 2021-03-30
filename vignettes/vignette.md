@@ -115,3 +115,47 @@ gvalue =
 
     0.1382    0.0613
 ```
+
+## 3. Heatmaps of clustering results by coupleCoC+
+
+```R
+## import libraries
+source("R/heatmap.R")
+library('gplots')
+scaleyellowred <- colorRampPalette(c("lightyellow", "red"), space = "rgb")(50)
+library('R.matlab')
+
+## load the raw data and clustering results by coupleCoC+
+X0<-readMat("data/methy_X.mat");X0<-as.matrix(X0[[1]]);
+Y_link<-readMat("data/methy_Y_link.mat");Y_link<-as.matrix(Y_link[[1]]);
+Y_unlink<-readMat("data/methy_Y_unlink.mat");Y_unlink<-as.matrix(Y_unlink[[1]]);
+
+CX_best<-readMat("data/methy_Cx.mat");CX_best<-as.vector(CX_best[[1]])
+CY_best<-readMat("data/methy_Cy.mat");CY_best<-as.vector(CY_best[[1]])
+CZ_best<-readMat("data/methy_Cz.mat");CZ_best<-as.vector(CZ_best[[1]])
+CZ0_best<-readMat("data/methy_Cz0.mat");CZ0_best<-as.vector(CZ0_best[[1]])
+
+## switch label based on the result of matm
+old_label_x=c(1,2)
+CX_best<-reorder_label(CX_best,old_label_x)
+old_label_y=c(2,1)
+CY_best<-reorder_label(CY_best,old_label_y)
+X_raw = X0;Y_raw_link = Y_link;Y_raw_unlink = Y_unlink;
+
+## obtain the separation lines in the heatmap
+gene_order_Z <- clu_sep(CZ_best)
+gene_order_Z0 <- clu_sep(CZ0_best)
+cell_order_X <- clu_sep(CX_best)
+cell_order_Y <- clu_sep(CY_best)
+colsep <- line_sep(CZ_best);
+colsep0 <- line_sep(CZ0_best);
+rowsep_x <- line_sep(CX_best);
+rowsep_y <- line_sep(CY_best);
+
+
+## heatmap of clustering results for source data, i.e. scRNA-seq data
+rowsepnum_x= clu_num(CX_best);
+raw_data_x = strong_signal(X_raw[cell_order_X,gene_order_Z],CX_best,rowsepnum_x,15)
+X = raw_data_x;
+heatmap_fun(X, scaleyellowred, colsep, rowsep_x)
+```
