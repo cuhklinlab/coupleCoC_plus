@@ -256,8 +256,8 @@ library(liger)
 ## load the data
 load("data/dataS_ex3.Rdata")
 load("data/dataT_ex3.Rdata")
-rna_data_spar <- rna_data_ex1
-met_data_spar <- atac_data_ex1
+rna_data_spar <- rna_data_ex1 #source data
+met_data_spar <- atac_data_ex1 #target data including linked part and unlinked part
 colnames(rna_data_spar) <- paste("rna",1:ncol(rna_data_spar),sep='_')
 colnames(met_data_spar) <- paste("met",1:ncol(met_data_spar),sep='_')
 
