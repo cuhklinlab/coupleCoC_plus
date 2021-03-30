@@ -246,10 +246,31 @@ ans =
     0.7370
     0.6967
 ```
+
 ## 5. One example for using benchmark methods in the paper
 ### LIGER
 ```R
+# LIGER: rna+met
 library(liger)
+
+## load the data
+load("data/dataS_ex3.Rdata")
+load("data/dataT_ex3.Rdata")
+rna_data_spar <- rna_data_ex1
+met_data_spar <- atac_data_ex1
+colnames(rna_data_spar) <- paste("rna",1:ncol(rna_data_spar),sep='_')
+colnames(met_data_spar) <- paste("met",1:ncol(met_data_spar),sep='_')
+
+## implementation of liger
+rna_met_create <- createLiger(list(rna_data=rna_data_spar,met_data=met_data_spar))
+rna_met_normal <- normalize(rna_met_create)
+rna_met_sele_gene <- selectGenes(rna_met_normal,datasets.use=c(1),var.thresh = 0.1,combine = "union") #only use rna to select features
+rna_met_scale <- scaleNotCenter(rna_met_sele_gene)
+rna_met_scale@scale.data[[2]] <- max(rna_met_scale@raw.data[[2]]) - t(as.matrix(rna_met_scale@raw.data[[2]][rna_met_scale@var.genes,])) # reverse the direction of the methylation data
+rna_met_nmf = optimizeALS(rna_met_scale,k=40,remove.missing=T) #non-negative matrix factorization
+rna_met_nmf_quantile2 = quantile_norm(rna_met_nmf,do.center=T)
+rna_met_nmf_quantile2_louvain <- louvainCluster(rna_met_nmf_quantile2, resolution = 0.05)
+result <- rna_met_nmf_quantile2_louvain@clusters # this one is used in paper
 
 ```
 
