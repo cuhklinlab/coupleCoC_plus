@@ -22,10 +22,17 @@ colors_CX = colors[1:2]
 umap_x = umap(X)
 plot.umap(umap_x, labels=as.factor(Cx_truth), main = "A UMAP visualization of scRNA-seq data", colors = colors_CX)
 ```
-![alt text](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/images/ex2_S.png "Source data")
+![alt text](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/images/ex3_S.png "Source data")
 
-
-
+```R
+# target data
+Cy_truth[which(Cy_truth==1)]= rep("L4", length(which(Cy_truth==1)))
+Cy_truth[which(Cy_truth==2)]= rep("L2/3 IT", length(which(Cy_truth==2)))
+colors_CY = colors[1:2]
+umap_y = umap(Y)
+plot.umap(umap_y, labels=as.factor(Cy_truth), main = "A UMAP visualization of sc-methylation data", colors = colors_CY)
+```
+![alt text](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/images/ex3_T.png "Source data")
 
 
 ```MATLAB
