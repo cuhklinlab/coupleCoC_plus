@@ -2,8 +2,8 @@
 This package contains the source code for the production of results in the paper "coupleCoC+: a information-theoretic co-clustering-based transfer learning framework for the integrative clustering of single-cell genomic data" by Pengcheng Zeng and Zhixiang Lin. The code include matlab code for the coupleCoC+ algorithm and R code for the downstream analysis. 
 
 ## Requirements
-* MATLAB R2019b for the coupleCoC+ model (including the matlab-based benchmark methods coupleCoC and CoC)
-- R version 4.0.4 for data visualization and downstream analysis (including the R-based benchmark methods LIGER, Seurat, SC3, SIMLR, etc.)
+* MATLAB R2019b for the coupleCoC+ model
+- R version 4.0.4 for data visualization and downstream analysis 
 
 ## Main functions
 Main functions in this package include:
