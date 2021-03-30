@@ -179,75 +179,7 @@ heatmap_cent(raw_data_y0,CZ0_best)
 ```
 ![alt text](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/images/hm_U.png "Unlinked target data")
 
-## 4. One example for simulation study by methods coupleCoC+, coupleCoC, CoC and k-means
-```MATLAB
-%% input data for the setting 6 in simulation study
-load('data/rna_simu_sy.mat');
-load('data/atac_simu_sy.mat');
-load('data/rna_clu_simu_sy.mat');
-load('data/atac_clu_simu_sy.mat');
-load('data/rna_simu_auxi_syv12.mat');
-
-p=200;maxiter=30;
-Eval_x = zeros(16,maxiter);Eval_y = zeros(16,maxiter);
-
-%% We need to use for loops i = 1:30 and average the results. Here we only try i = 1.
-i = 1;
-ind = ((i-1)*p+1):(i*p); 
-X = atac_simu(:,ind); Cx_truth = atac_clu_simu(:,i); % auxiliary data
-Y_link = rna_simu(:,ind); Cy_truth = rna_clu_simu(:,i);  % target data
-Y_unlink = log(rna_simu_auxi(:,ind)+1);
-
-% remove rows and columns that have zero sums
-[X, Y_link, Cx_truth, Cy_truth] = removal_rowcol(X, Y_link, Cx_truth, Cy_truth);
-yczero = sum(Y_unlink,1)==0;Y_unlink(:,yczero)=[];
-Y_full = [Y_link,Y_unlink];
-
-% coupleCoC+
-[Cx, Cy, ~, ~, ~, ~, ~, ~,~] = coupleCoC_plus(X,Y_link,Y_unlink,2,2,3,5,15,2,1,1,2);
-[~, ~, Eval_tab] = clu_eval(Cx_truth, Cy_truth, Cx, Cy);
-Eval_y(1:4,i) = Eval_tab{:,:}(:,2);
-
-% coupleCoC
-[Cx1, Cy1, Cz1, cluster_p1, cluster_q1, obj1] = coupleCoC(X,Y_link,2,2,3,15,2);
-[TAB_X1, TAB_Y1, Eval_tab1] = clu_eval(Cx_truth, Cy_truth, Cx1, Cy1);
-Eval_y(5:8,i) = Eval_tab1{:,:}(:,2);
-
-% CoC
-[Cy2, Cz2, cluster_p2, obj2] = CoC(Y_full,2,3,15);
-[~, TAB_Y2, Eval_tab2] = clu_eval(Cy_truth, Cy_truth, Cy2, Cy2);
-Eval_y(9:12,i) = Eval_tab2{:,:}(:,2);
-
-%k-means
-[idx,~] = kmeans(X,2,'MaxIter',10000,'Replicates',15);
-[idy,~] = kmeans(Y_full,2,'MaxIter',10000,'Replicates',15);
-[TAB_X3, TAB_Y3, Eval_tab3] = clu_eval(Cx_truth, Cy_truth, idx, idy);
-Eval_y(13:16,i) = Eval_tab5{:,:}(:,2);
-
-Eval_y(:,i)
-```
-```MATLAB
->> Eval_y(:,i)
-ans =
-    0.8900
-    0.8022
-    0.6044
-    0.4993
-    0.8300
-    0.7149
-    0.4299
-    0.3448
-    0.9300
-    0.8685
-    0.7370
-    0.6967
-    0.9300
-    0.8685
-    0.7370
-    0.6967
-```
-
-## 5. One example for using benchmark methods in the paper
+## 4. One example for using R-based benchmark methods in the paper
 ```R
 ## load the data
 load("data/dataS_ex3.Rdata")
@@ -384,3 +316,73 @@ N = 2;
 res = SHARP(rna_data_spar , logflag = FALSE, N.cluster = N, enpN.cluster=N,indN.cluster=N)
 result_sharp = res$pred_clusters
 ```
+
+## 5. One example for simulation study by coupleCoC+, coupleCoC, CoC and k-means
+```MATLAB
+%% input data for the setting 6 in simulation study
+load('data/rna_simu_sy.mat');
+load('data/atac_simu_sy.mat');
+load('data/rna_clu_simu_sy.mat');
+load('data/atac_clu_simu_sy.mat');
+load('data/rna_simu_auxi_syv12.mat');
+
+p=200;maxiter=30;
+Eval_x = zeros(16,maxiter);Eval_y = zeros(16,maxiter);
+
+%% We need to use for loops i = 1:30 and average the results. Here we only try i = 1.
+i = 1;
+ind = ((i-1)*p+1):(i*p); 
+X = atac_simu(:,ind); Cx_truth = atac_clu_simu(:,i); % auxiliary data
+Y_link = rna_simu(:,ind); Cy_truth = rna_clu_simu(:,i);  % target data
+Y_unlink = log(rna_simu_auxi(:,ind)+1);
+
+% remove rows and columns that have zero sums
+[X, Y_link, Cx_truth, Cy_truth] = removal_rowcol(X, Y_link, Cx_truth, Cy_truth);
+yczero = sum(Y_unlink,1)==0;Y_unlink(:,yczero)=[];
+Y_full = [Y_link,Y_unlink];
+
+% coupleCoC+
+[Cx, Cy, ~, ~, ~, ~, ~, ~,~] = coupleCoC_plus(X,Y_link,Y_unlink,2,2,3,5,15,2,1,1,2);
+[~, ~, Eval_tab] = clu_eval(Cx_truth, Cy_truth, Cx, Cy);
+Eval_y(1:4,i) = Eval_tab{:,:}(:,2);
+
+% coupleCoC
+[Cx1, Cy1, Cz1, cluster_p1, cluster_q1, obj1] = coupleCoC(X,Y_link,2,2,3,15,2);
+[TAB_X1, TAB_Y1, Eval_tab1] = clu_eval(Cx_truth, Cy_truth, Cx1, Cy1);
+Eval_y(5:8,i) = Eval_tab1{:,:}(:,2);
+
+% CoC
+[Cy2, Cz2, cluster_p2, obj2] = CoC(Y_full,2,3,15);
+[~, TAB_Y2, Eval_tab2] = clu_eval(Cy_truth, Cy_truth, Cy2, Cy2);
+Eval_y(9:12,i) = Eval_tab2{:,:}(:,2);
+
+%k-means
+[idx,~] = kmeans(X,2,'MaxIter',10000,'Replicates',15);
+[idy,~] = kmeans(Y_full,2,'MaxIter',10000,'Replicates',15);
+[TAB_X3, TAB_Y3, Eval_tab3] = clu_eval(Cx_truth, Cy_truth, idx, idy);
+Eval_y(13:16,i) = Eval_tab5{:,:}(:,2);
+
+Eval_y(:,i)
+```
+```MATLAB
+>> Eval_y(:,i)
+ans =
+    0.8900
+    0.8022
+    0.6044
+    0.4993
+    0.8300
+    0.7149
+    0.4299
+    0.3448
+    0.9300
+    0.8685
+    0.7370
+    0.6967
+    0.9300
+    0.8685
+    0.7370
+    0.6967
+```
+
+
