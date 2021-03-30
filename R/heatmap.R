@@ -154,3 +154,27 @@ reorder_label <- function(CX_best,old_label){
   }
   return(CX0)
 }
+
+heatmap_cent <- function(raw_data_y,CZ_best){
+  raw_data_y_center2 <- raw_data_y
+  raw_data_y_center2 <- scale(t(raw_data_y_center2), center=T, scale=F)
+  raw_data_y_center2 <- t(raw_data_y_center2)
+  raw_data_y_center2 <- scale(raw_data_y_center2, center=T, scale=F)
+  thres_high <- quantile(raw_data_y_center2, 0.9, na.rm=T) # 0.003
+  thres_low <- quantile(raw_data_y_center2, 0.1, na.rm=T) #-0.003
+  raw_data_y_center2[which(raw_data_y_center2>= thres_high)] <- thres_high
+  raw_data_y_center2[which(raw_data_y_center2<= thres_low)] <- thres_low
+  heatmap.2(raw_data_y_center2, dendrogram="none", col = scaleyellowred, na.color="gray",
+            labRow = "", labCol = "",
+            Rowv=FALSE, Colv = FALSE,
+            margins = c(2, 2),  trace = "none",
+            key=T, key.xlab="log2(normalized read count + 1)", key.title="", #keysize=1.2,
+            density.info = "none",
+            xlab = "features",
+            ylab = "cells",
+            sepcolor="blue",
+            lwd=3,
+            colsep=line_sep(CZ_best),
+            rowsep=rowsep_y,lty=2
+  )
+}
