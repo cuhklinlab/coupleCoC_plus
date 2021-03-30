@@ -160,3 +160,21 @@ X = raw_data_x;
 heatmap_fun(X, scaleyellowred, colsep, rowsep_x)
 ```
 ![alt text](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/images/hm_S.png "Source data")
+
+```R
+## heatmap of clustering results for the linked part of target data, i.e. scMethylation-seq data
+gene_order <- clu_sep(CZ_best)
+N_ave = 15;
+rowsepnum_y=clu_num(CY_best);
+raw_data_y = strong_signal(Y_raw_link[cell_order_Y,gene_order],CY_best,rowsepnum_y,N_ave)
+heatmap_cent(raw_data_y,CZ_best)
+```
+![alt text](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/images/hm_T.png "Linked target data")
+
+```R
+## heatmap of clustering results for the linked part of target data, i.e. scMethylation-seq data
+gene_order0 <- clu_sep(CZ0_best)
+raw_data_y0 = strong_signal(Y_raw_unlink[cell_order_Y,gene_order0],CY_best,rowsepnum_y,N_ave)
+heatmap_cent(raw_data_y0,CZ0_best)
+```
+![alt text](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/images/hm_U.png "Unlinked target data")
