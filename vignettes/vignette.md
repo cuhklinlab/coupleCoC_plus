@@ -344,8 +344,8 @@ CX = cluster.ensemble_x$BICcluster;
 ### SIMLR
 ```R
 library("SIMLR")
-result_simlr = SIMLR_Large_Scale(X = rna_data_spar, c = 2, kk= 10) # we need to tune the parameter kk
-result_simlr$y$cluster
+res= SIMLR_Large_Scale(X = rna_data_spar, c = 2, kk= 10) # we need to tune the parameter kk
+result_simlr = res$y$cluster
 ```
 
 ### SC3
@@ -371,4 +371,16 @@ sce <- sce[!duplicated(rowData(sce)$feature_symbol), ]
 isSpike(sce, "ERCC") <- grepl("ERCC", rowData(sce)$feature_symbol)
 sce <- sc3(sce, ks = 2, gene_filter = FALSE, biology = TRUE)
 result_SC3 <- as.vector(sce$sc3_2_clusters))
+```
+
+### SHARP
+```R
+library(cluster)
+library("doParallel")
+library("Matrix")
+library('clusterCrit')
+library('SHARP')
+N = 2;
+res = SHARP(rna_data_spar , logflag = FALSE, N.cluster = N, enpN.cluster=N,indN.cluster=N)
+result_sharp = res$pred_clusters
 ```
