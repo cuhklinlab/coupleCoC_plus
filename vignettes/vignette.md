@@ -1,4 +1,4 @@
-# A quick guide to coupleCoC+
+# A quick guide to coupleCoC+ and benchmark methods
 
 ## 1. UMAP visualization for the raw data
 
@@ -246,7 +246,12 @@ ans =
     0.7370
     0.6967
 ```
+## 5. One example for using benchmark methods in the paper
+### LIGER
+```R
+library(liger)
 
+```
 
 
 
