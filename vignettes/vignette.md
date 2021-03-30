@@ -179,7 +179,7 @@ heatmap_cent(raw_data_y0,CZ0_best)
 ```
 ![alt text](https://github.com/cuhklinlab/coupleCoC_plus/blob/main/images/hm_U.png "Unlinked target data")
 
-## 4. One example for simulation study by coupleCoC+, coupleCoC and CoC
+## 4. One example for simulation study by methods coupleCoC+, coupleCoC, CoC and k-means
 ```MATLAB
 %% input data for the setting 6 in simulation study
 load('data/rna_simu_sy.mat');
@@ -221,12 +221,31 @@ Eval_y(9:12,i) = Eval_tab2{:,:}(:,2);
 %k-means
 [idx,~] = kmeans(X,2,'MaxIter',10000,'Replicates',15);
 [idy,~] = kmeans(Y_full,2,'MaxIter',10000,'Replicates',15);
-[TAB_X5, TAB_Y5, Eval_tab5] = clu_eval(Cx_truth, Cy_truth, idx, idy);
+[TAB_X3, TAB_Y3, Eval_tab3] = clu_eval(Cx_truth, Cy_truth, idx, idy);
 Eval_y(13:16,i) = Eval_tab5{:,:}(:,2);
 
 Eval_y(:,i)
 ```
-
+```MATLAB
+>> Eval_y(:,i)
+ans =
+    0.8900
+    0.8022
+    0.6044
+    0.4993
+    0.8300
+    0.7149
+    0.4299
+    0.3448
+    0.9300
+    0.8685
+    0.7370
+    0.6967
+    0.9300
+    0.8685
+    0.7370
+    0.6967
+```
 
 
 
