@@ -98,3 +98,20 @@ Eval_tab =
      1     2     2     1
      1     2     2     1
 ```
+```MATLAB
+%%determination of N_sub
+gvalue = [];
+for N_sub=1:2
+[~, ~, dis] = swap_label_plus(cluster_p,cluster_q,N_sub);
+gvalue(N_sub)= dis/(N_sub*log(N_sub+1));
+end
+gvalue %% We set the number of matched N_sub as 2, because the values of the objective function g(N_sub) for choosing N_sub are smaller when N_sub = 2 (0.138 when N_sub = 1 and 0.061 when N_sub = 2.
+respectively)
+```
+```MATLAB
+>> gvalue
+
+gvalue =
+
+    0.1382    0.0613
+```
