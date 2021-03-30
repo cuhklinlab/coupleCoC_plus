@@ -283,4 +283,50 @@ library(scACE)
 result_scACE <- getClusterGibbs(data_acc=t(rna_data_spar), data_exp=t(met_data_spar), overlap_seq_acc=1:998, overlap_seq_exp=1:1000, nCluster=3, niter=1000)
 ```
 
+### Seurat
+```R
+library(Seurat)
+##scRNA-seq data
+rna_create <- CreateSeuratObject(counts = rna_data_spar)#, min.cells = 3, min.features = 200)
+rna_create$tech <- "rna"
+rna_norm <- NormalizeData(rna_create, normalization.method = "LogNormalize", scale.factor = 10000)
+rna_feature_sele <- FindVariableFeatures(rna_norm, selection.method = "vst", nfeatures = 2000)
+all.genes <- rownames(rna_feature_sele)
+rna_scale <- ScaleData(rna_feature_sele, features = all.genes)
+rna_pca <- RunPCA(rna_scale, features = VariableFeatures(object = rna_scale))
+rna_pca_neighbor <- FindNeighbors(rna_pca, dims = 1:10)
+rna_pca_neighbor_cluster <- FindClusters(rna_pca_neighbor, resolution = 0.5)
+rna_seurat_label <- Idents(rna_pca_neighbor_cluster)
+Cx = as.integer(rna_seurat_label);
+rna_umap <- RunUMAP(rna_pca_neighbor_cluster, dims = 1:10)
 
+##sc-Methylation data
+rna_create2 <- CreateSeuratObject(counts = met_data_spar)#, min.cells = 3, min.features = 200)
+rna_create2$tech <- "met"
+rna_norm2 <- NormalizeData(rna_create2, normalization.method = "LogNormalize", scale.factor = 10000)
+# disp / mvp / vst
+rna_feature_sele2 <- FindVariableFeatures(rna_norm2, selection.method = "vst", nfeatures = 2000)
+# Identify the 10 most highly variable genes
+#top10 <- head(VariableFeatures(rna_feature_sele), 10)
+all.genes2 <- rownames(rna_feature_sele2)
+rna_scale2 <- ScaleData(rna_feature_sele2, features = all.genes2)
+rna_pca2 <- RunPCA(rna_scale2, features = VariableFeatures(object = rna_scale2))
+rna_pca_neighbor2 <- FindNeighbors(rna_pca2, dims = 1:10)
+rna_pca_neighbor_cluster2 <- FindClusters(rna_pca_neighbor2, resolution = 0.5)
+rna_seurat_label2 <- Idents(rna_pca_neighbor_cluster2)
+Cy = as.integer(rna_seurat_label2);
+
+## Joint analysis
+### The [[]] operator can add columns to object metadata
+# add true cell label to seurat object
+rna_umap[["celltype"]] <- as.numeric(Cx_truth)
+# identify anchors between the batch 1 scRNA dataset and the batch 2 scRNA-seq dataset and use these anchors to transfer the celltype labels.
+transfer.anchors <- FindTransferAnchors(reference = rna_umap, query = rna_umap2, features = VariableFeatures(object = rna_umap), reference.assay = "RNA", query.assay = "MET", reduction = "cca")
+# To transfer the cluster ids, we provide a vector of previously annotated cell type labels for the RNA to the refdata parameter. The output will contain a matrix with predictions and confidence scores for each ATAC-seq cell.
+celltype.predictions <- TransferData(anchorset = transfer.anchors, refdata = as.factor(rna_umap$celltype), weight.reduction = "cca")
+rna_umap2 <- AddMetaData(rna_umap2, metadata = celltype.predictions)
+
+# view the predicted cell types on a UMAP representation of the batch2 data
+rna_joint_seurat_label <- celltype.predictions$predicted.id
+
+```
