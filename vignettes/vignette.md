@@ -317,20 +317,19 @@ res = SHARP(rna_data_spar , logflag = FALSE, N.cluster = N, enpN.cluster=N,indN.
 result_sharp = res$pred_clusters
 ```
 
-## 5. One example for simulation study by coupleCoC+, coupleCoC, CoC and k-means
+## 5. One example for simulation study by coupleCoC+, coupleCoC and CoC
 ```MATLAB
-%% input data for the setting 6 in simulation study
-load('data/rna_simu_sy.mat');
-load('data/atac_simu_sy.mat');
-load('data/rna_clu_simu_sy.mat');
-load('data/atac_clu_simu_sy.mat');
-load('data/rna_simu_auxi_syv12.mat');
+%% input data for the setting 1 in simulation study
+load('data/rna_simu_s1.mat');
+load('data/atac_simu_s1.mat');
+load('data/rna_clu_simu_s1.mat');
+load('data/atac_clu_simu_s1.mat');
+load('data/rna_simu_auxi_s1v1.mat');
 
-p=200;maxiter=30;
+p=1000;maxiter=30;
 Eval_x = zeros(16,maxiter);Eval_y = zeros(16,maxiter);
 
-%% We need to use for loops i = 1:30 and average the results. Here we only try i = 1.
-i = 1;
+for i = 1:30
 ind = ((i-1)*p+1):(i*p); 
 X = atac_simu(:,ind); Cx_truth = atac_clu_simu(:,i); % auxiliary data
 Y_link = rna_simu(:,ind); Cy_truth = rna_clu_simu(:,i);  % target data
@@ -342,47 +341,38 @@ yczero = sum(Y_unlink,1)==0;Y_unlink(:,yczero)=[];
 Y_full = [Y_link,Y_unlink];
 
 % coupleCoC+
-[Cx, Cy, ~, ~, ~, ~, ~, ~,~] = coupleCoC_plus(X,Y_link,Y_unlink,2,2,3,5,15,2,1,1,2);
+[Cx, Cy, ~, ~, ~, ~, ~, ~,~] = coupleCoC_plus(X,Y_link,Y_unlink,2,2,3,3,15,2,1,1,2);
 [~, ~, Eval_tab] = clu_eval(Cx_truth, Cy_truth, Cx, Cy);
-Eval_y(1:4,i) = Eval_tab{:,:}(:,2);
+Eval_x(1:4,i) = Eval_tab{:,:}(:,1);Eval_y(1:4,i) = Eval_tab{:,:}(:,2);
 
 % coupleCoC
 [Cx1, Cy1, Cz1, cluster_p1, cluster_q1, obj1] = coupleCoC(X,Y_link,2,2,3,15,2);
 [TAB_X1, TAB_Y1, Eval_tab1] = clu_eval(Cx_truth, Cy_truth, Cx1, Cy1);
-Eval_y(5:8,i) = Eval_tab1{:,:}(:,2);
+Eval_x(5:8,i) = Eval_tab1{:,:}(:,1);Eval_y(5:8,i) = Eval_tab1{:,:}(:,2);
 
 % CoC
 [Cy2, Cz2, cluster_p2, obj2] = CoC(Y_full,2,3,15);
 [~, TAB_Y2, Eval_tab2] = clu_eval(Cy_truth, Cy_truth, Cy2, Cy2);
-Eval_y(9:12,i) = Eval_tab2{:,:}(:,2);
-
-%k-means
-[idx,~] = kmeans(X,2,'MaxIter',10000,'Replicates',15);
-[idy,~] = kmeans(Y_full,2,'MaxIter',10000,'Replicates',15);
-[TAB_X3, TAB_Y3, Eval_tab3] = clu_eval(Cx_truth, Cy_truth, idx, idy);
-Eval_y(13:16,i) = Eval_tab5{:,:}(:,2);
-
-Eval_y(:,i)
+Eval_x(9:12,i) = Eval_tab2{:,:}(:,1);Eval_y(9:12,i) = Eval_tab2{:,:}(:,2);
+end
 ```
 ```MATLAB
->> Eval_y(:,i)
+>> [mean(Eval_x,2),mean(Eval_y,2)]
+
 ans =
-    0.8900
-    0.8022
-    0.6044
-    0.4993
-    0.8300
-    0.7149
-    0.4299
-    0.3448
-    0.9300
-    0.8685
-    0.7370
-    0.6967
-    0.9300
-    0.8685
-    0.7370
-    0.6967
+
+    1.0000    0.9827
+    1.0000    0.9662
+    1.0000    0.9324
+    1.0000    0.9001
+    0.9983    0.9733
+    0.9968    0.9543
+    0.9936    0.9087
+    0.9918    0.8739
+    0.9500    0.9500
+    0.9049    0.9049
+    0.8098    0.8098
+    0.7659    0.7659
 ```
 
 
