@@ -47,7 +47,7 @@ load('data/ex3_S.mat');load('data/ex3_T.mat');load('data/ex3_U.mat');
 load('data/ex3_S_cell_label.mat');load('data/ex3_T_cell_label.mat'); 
 
 %%%%%%%%%%%%%%%%%%%%% coupleCoC+ algorithm %%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%% input notation %%%%%%%%%%%%%%%
+%%%%% input %%%%%%%%%%%%%%%
 % p, q and q0 represent data S, data T and data U, respectively;
 % nrowcluster1 and nrowcluster2 represent the number of cell cluster in data S, the number of cell cluster in data T, respectively;
 % ncolcluster and ncolcluster0 represent the number of feature cluster in linked features and the number of feature cluster in unlinked features, respectively;
@@ -56,7 +56,7 @@ load('data/ex3_S_cell_label.mat');load('data/ex3_T_cell_label.mat');
 % beta: the hyperparameter that controls the contribution of the unlinked features in the target data T;
 % gamma: the hyperparameter that controls the contribution of cell types matching across the source data S and the target data T;
 % nsub: the number of matched cell clusters across source data and targert data;
-%%%%% output notation %%%%%%%%%%%%%%%%
+%%%%% output %%%%%%%%%%%%%%%%
 % Cx and Cy represent the cell label assignments for source data and target data, respectively;
 % Cz and Cz0 represent the feature label assignments for the linked features and unlinked features, respectively;
 % cluster_p, cluster_q and cluster_q0 represent joint probability distributions for cell clusters and features clusters in data S, data T and data U, respectively;
