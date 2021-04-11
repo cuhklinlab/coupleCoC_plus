@@ -60,9 +60,9 @@ load('data/ex3_S_cell_label.mat');load('data/ex3_T_cell_label.mat');
 % Cx and Cy represent the cell label assignments for source data and target data, respectively;
 % Cz and Cz0 represent the feature label assignments for the linked features and unlinked features, respectively;
 % cluster_p, cluster_q and cluster_q0 represent joint probability distributions for cell clusters and features clusters in data S, data T and data U, respectively;
-% obj: a vector to record the value of objective function in each iteration;
-% matm: a matrix to record the matched order of labels in two datasets for each iteration. For example, the row [1 2 2 1] means the first and the second kind of 
-% cell types in the source % dataset are matched with the the second and the first kind of cell types in the target dataset, respectively.
+% obj: a vector used to record the value of objective function in each iteration;
+% matm: a matrix used to record the matched order of labels in two datasets for each iteration. For example, the row [1 2 2 1] means the first and the second kind of 
+% cell types in the source dataset are matched with the the second and the first kind of cell types in the target dataset, respectively.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % setting the values of hyperparameters
