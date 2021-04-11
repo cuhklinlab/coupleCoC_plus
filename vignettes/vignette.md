@@ -65,16 +65,14 @@ load('data/ex3_S_cell_label.mat');load('data/ex3_T_cell_label.mat');
 % cell types in the source % dataset are matched with the the second and the first kind of cell types in the target dataset, respectively.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%% tuning the hyperparameters %%%%%%%%
-
-
 % setting the values of hyperparameters
 nrowcluster1=2;nrowcluster2=2;ncolcluster=5;ncolcluster0=8;iter=20;
 lambda=0.1;beta=0.6;gamma=1;nsub=2;
 
+% running the coupleCoC+ algorithm
 [Cx, Cy, Cz, Cz0, cluster_p, cluster_q, cluster_q0, obj, matm] = coupleCoC_plus(p,q,q0,nrowcluster1,nrowcluster2,ncolcluster,ncolcluster0,iter,lambda,beta,gamma,nsub);
 
-%% results
+%% presenting the results
 [TAB_X, TAB_Y, Eval_tab] = clu_eval(Cx_truth, Cy_truth, Cx, Cy); %% Note that this function produces the contingency table and four metrics values, two of which, i.e. ARI and NMI are utilized in this paper
 disp(matm)
 ```
@@ -137,6 +135,25 @@ respectively)
 gvalue =
 
     0.1382    0.0613
+```
+
+```MATLAB
+%%%%%%%%%%%%%%% Tuning the hyperparameters %%%%%%%%%%%%
+%%Note that we use the package in python to calculate the CH-index value for
+%%each combination of hyperparameters as follows:
+%%Step 1: For each combination of hyperparameters, we calculate the clustering results by coupleCoC+ and save the cell label
+%%        assignments of target data; (In practice, we can tune one single hyperparameter by fixing the remaining hyperparameters);
+%%Step 2: Input the data and cell labels assignments and obtain the CH-index for each combination of hyperparameters;
+%%Step 3: Choose the combination that has the highest CH-index value.
+
+% load the pacakge
+from sklearn import metrics
+from sklearn.metrics import pairwise_distances
+import numpy as np
+
+% calculate the CH-index
+chindex = metrics.calinski_harabasz_score(data, labels)
+
 ```
 
 ## 3. Heatmaps of clustering results by coupleCoC+
