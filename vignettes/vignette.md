@@ -41,14 +41,30 @@ clear
 clc
 close all
 
-%%load the processed data in example 3 in the paper
-load('data/S.mat');load('data/T.mat');load('data/U.mat');
-load('data/S_cell_label.mat');load('data/T_cell_label.mat'); 
+%%load the processed data in example 3 in the paper; note that the folder "data" include all the preprocessed datasets that are used in the paper.
+load('data/ex3_S.mat');load('data/ex3_T.mat');load('data/ex3_U.mat');
+load('data/ex3_S_cell_label.mat');load('data/ex3_T_cell_label.mat'); 
 
-%%coupleCoC+
-%setting the values of hyperparameters
+%%%%%%%%%%%%%%%%%%%%% coupleCoC+ algorithm %%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% input notation %%%%%%%%%%%%%%%
+% p, q and q0 represent data S, data T and data U, respectively;
+% nrowcluster1, nrowcluster2, ncolcluster and ncolcluster0 represent the number of cell cluster in data S, the number of cell cluster in data T, the number of
+% feature cluster in linked features of data T and the number of feature cluster in unlinked features (i.e. data U), respectively;
+% lambda:
+% beta:
+% gamma:
+% nsub:
+%%%%% output notation %%%%%%%%%%%%%%%%
+% Cx, Cy, Cz, Cz0:
+% cluster_p, cluster_q, cluster_q0
+% obj:
+% matm:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% setting the values of hyperparameters
 nrowcluster1=2;nrowcluster2=2;ncolcluster=5;ncolcluster0=8;iter=20;
 lambda=0.1;beta=0.6;gamma=1;nsub=2;
+
 [Cx, Cy, Cz, Cz0, cluster_p, cluster_q, cluster_q0, obj, matm] = coupleCoC_plus(p,q,q0,nrowcluster1,nrowcluster2,ncolcluster,ncolcluster0,iter,lambda,beta,gamma,nsub);
 
 %% results
