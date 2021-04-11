@@ -41,25 +41,32 @@ clear
 clc
 close all
 
-%%load the processed data in example 3 in the paper; note that the folder "data" include all the preprocessed datasets that are used in the paper.
+%%load the processed data in example 3 in the paper; note that the folder 
+%"data" include all the preprocessed datasets (ex1-ex4) used in the paper.
 load('data/ex3_S.mat');load('data/ex3_T.mat');load('data/ex3_U.mat');
 load('data/ex3_S_cell_label.mat');load('data/ex3_T_cell_label.mat'); 
 
 %%%%%%%%%%%%%%%%%%%%% coupleCoC+ algorithm %%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% input notation %%%%%%%%%%%%%%%
 % p, q and q0 represent data S, data T and data U, respectively;
-% nrowcluster1, nrowcluster2, ncolcluster and ncolcluster0 represent the number of cell cluster in data S, the number of cell cluster in data T, the number of
-% feature cluster in linked features of data T and the number of feature cluster in unlinked features (i.e. data U), respectively;
-% lambda:
-% beta:
-% gamma:
-% nsub:
+% nrowcluster1 and nrowcluster2 represent the number of cell cluster in data S, the number of cell cluster in data T, respectively;
+% ncolcluster and ncolcluster0 represent the number of feature cluster in linked features and the number of feature cluster in unlinked features, respectively;
+% iter: the number of iteration used in the algorithm. The default value is set as 20;
+% lambda: the hyperparameter that controls the contribution of the source data S;
+% beta: the hyperparameter that controls the contribution of the unlinked features in the target data T;
+% gamma: the hyperparameter that controls the contribution of cell types matching across the source data S and the target data T;
+% nsub: the number of matched cell clusters across source data and targert data;
 %%%%% output notation %%%%%%%%%%%%%%%%
-% Cx, Cy, Cz, Cz0:
-% cluster_p, cluster_q, cluster_q0
-% obj:
-% matm:
+% Cx and Cy represent the cell label assignments for source data and target data, respectively;
+% Cz and Cz0 represent the feature label assignments for the linked features and unlinked features, respectively;
+% cluster_p, cluster_q and cluster_q0 represent joint probability distributions for cell clusters and features clusters in data S, data T and data U, respectively;
+% obj: a vector to record the value of objective function in each iteration;
+% matm: a matrix to record the matched order of labels in two datasets for each iteration. For example, the row [1 2 2 1] means the first and the second kind of 
+% cell types in the source % dataset are matched with the the second and the first kind of cell types in the target dataset, respectively.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%% tuning the hyperparameters %%%%%%%%
+
 
 % setting the values of hyperparameters
 nrowcluster1=2;nrowcluster2=2;ncolcluster=5;ncolcluster0=8;iter=20;
@@ -69,7 +76,7 @@ lambda=0.1;beta=0.6;gamma=1;nsub=2;
 
 %% results
 [TAB_X, TAB_Y, Eval_tab] = clu_eval(Cx_truth, Cy_truth, Cx, Cy); %% Note that this function produces the contingency table and four metrics values, two of which, i.e. ARI and NMI are utilized in this paper
-disp(matm) %% show the matched order of labels in two datasets for each iteration. For example, [1 2 2 1] means the first and the second kind of cell types in the source dataset are matched with the the second and the first kind of cell types in the target dataset, respectively.
+disp(matm)
 ```
 
 ```MATLAB
