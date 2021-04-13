@@ -11,10 +11,10 @@ library(RColorBrewer)
 source("R/heatmap.R")
 colors = brewer.pal(8, "Set3")
 # load data
-X<-readMat("data/methy_X.mat");X<-as.matrix(X[[1]]);
-Y<-readMat("data/methy_Y_link.mat");Y<-as.matrix(Y[[1]]);
-Cx_truth<-readMat("data/methy_Cx_truth.mat");Cx_truth<-as.matrix(Cx_truth[[1]]);
-Cy_truth<-readMat("data/methy_Cy_truth.mat");Cy_truth<-as.matrix(Cy_truth[[1]]);
+X<-readMat("data/graph data/methy_X.mat");X<-as.matrix(X[[1]]);
+Y<-readMat("data/graph data/methy_Y_link.mat");Y<-as.matrix(Y[[1]]);
+Cx_truth<-readMat("data/graph data/methy_Cx_truth.mat");Cx_truth<-as.matrix(Cx_truth[[1]]);
+Cy_truth<-readMat("data/graph data/methy_Cy_truth.mat");Cy_truth<-as.matrix(Cy_truth[[1]]);
 # plot source data
 Cx_truth[which(Cx_truth==1)]= rep("L4", length(which(Cx_truth==1)))
 Cx_truth[which(Cx_truth==2)]= rep("L2/3 IT", length(which(Cx_truth==2)))
@@ -43,8 +43,8 @@ close all
 
 %%load the processed data in example 3 in the paper; note that the folder 
 %"data" include all the preprocessed datasets (ex1-ex4) used in the paper.
-load('data/ex3_S.mat');load('data/ex3_T.mat');load('data/ex3_U.mat');
-load('data/ex3_S_cell_label.mat');load('data/ex3_T_cell_label.mat'); 
+load('data/real data/ex3_S.mat');load('data/real data/ex3_T.mat');load('data/real data/ex3_U.mat');
+load('data/real data/ex3_S_cell_label.mat');load('data/real data/ex3_T_cell_label.mat'); 
 
 %%%%%%%%%%%%%%%%%%%%% coupleCoC+ algorithm %%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% input %%%%%%%%%%%%%%%
@@ -167,14 +167,14 @@ scaleyellowred <- colorRampPalette(c("lightyellow", "red"), space = "rgb")(50)
 library('R.matlab')
 
 ## load the raw data and clustering results by coupleCoC+
-X0<-readMat("data/methy_X.mat");X0<-as.matrix(X0[[1]]);
-Y_link<-readMat("data/methy_Y_link.mat");Y_link<-as.matrix(Y_link[[1]]);
-Y_unlink<-readMat("data/methy_Y_unlink.mat");Y_unlink<-as.matrix(Y_unlink[[1]]);
+X0<-readMat("data/graph data/methy_X.mat");X0<-as.matrix(X0[[1]]);
+Y_link<-readMat("data/graph data/methy_Y_link.mat");Y_link<-as.matrix(Y_link[[1]]);
+Y_unlink<-readMat("data/graph data/methy_Y_unlink.mat");Y_unlink<-as.matrix(Y_unlink[[1]]);
 
-CX_best<-readMat("data/methy_Cx.mat");CX_best<-as.vector(CX_best[[1]])
-CY_best<-readMat("data/methy_Cy.mat");CY_best<-as.vector(CY_best[[1]])
-CZ_best<-readMat("data/methy_Cz.mat");CZ_best<-as.vector(CZ_best[[1]])
-CZ0_best<-readMat("data/methy_Cz0.mat");CZ0_best<-as.vector(CZ0_best[[1]])
+CX_best<-readMat("data/graph data/methy_Cx.mat");CX_best<-as.vector(CX_best[[1]])
+CY_best<-readMat("data/graph data/methy_Cy.mat");CY_best<-as.vector(CY_best[[1]])
+CZ_best<-readMat("data/graph data/methy_Cz.mat");CZ_best<-as.vector(CZ_best[[1]])
+CZ0_best<-readMat("data/graph data/methy_Cz0.mat");CZ0_best<-as.vector(CZ0_best[[1]])
 
 ## switch label based on the result of matm
 old_label_x=c(1,2)
@@ -223,8 +223,8 @@ heatmap_cent(raw_data_y0,CZ0_best)
 ## 4. One example for using R-based benchmark methods in the paper
 ```R
 ## load the data
-load("data/dataS_ex3.Rdata")
-load("data/dataT_ex3.Rdata")
+load("data/real data/dataS_ex3.Rdata")
+load("data/real data/dataT_ex3.Rdata")
 rna_data_spar <- rna_data_ex1 #source data
 met_data_spar <- atac_data_ex1 #target data including linked part and unlinked part
 colnames(rna_data_spar) <- paste("rna",1:ncol(rna_data_spar),sep='_')
@@ -361,11 +361,11 @@ result_sharp = res$pred_clusters
 ## 5. One example for simulation study by coupleCoC+, coupleCoC and CoC
 ```MATLAB
 %% input data for the setting 1 in simulation study
-load('data/rna_simu_s1.mat');
-load('data/atac_simu_s1.mat');
-load('data/rna_clu_simu_s1.mat');
-load('data/atac_clu_simu_s1.mat');
-load('data/rna_simu_auxi_s1v1.mat');
+load('data/simulation data/rna_simu_s1.mat');
+load('data/simulation data/atac_simu_s1.mat');
+load('data/simulation data/rna_clu_simu_s1.mat');
+load('data/simulation data/atac_clu_simu_s1.mat');
+load('data/simulation data/rna_simu_auxi_s1v1.mat');
 
 p=1000;maxiter=30;
 Eval_x = zeros(16,maxiter);Eval_y = zeros(16,maxiter);
