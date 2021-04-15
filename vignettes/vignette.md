@@ -9,7 +9,7 @@ library('R.matlab')
 library(umap)
 library(RColorBrewer)
 source("R/heatmap.R")
-colors = brewer.pal(8, "Set3")
+colors = brewer.pal(10, "Set3")
 # load data
 X<-readMat("data/graph data/methy_X.mat");X<-as.matrix(X[[1]]);
 Y<-readMat("data/graph data/methy_Y_link.mat");Y<-as.matrix(Y[[1]]);
@@ -18,7 +18,7 @@ Cy_truth<-readMat("data/graph data/methy_Cy_truth.mat");Cy_truth<-as.matrix(Cy_t
 # plot source data
 Cx_truth[which(Cx_truth==1)]= rep("L4", length(which(Cx_truth==1)))
 Cx_truth[which(Cx_truth==2)]= rep("L2/3 IT", length(which(Cx_truth==2)))
-colors_CX = colors[1:2]
+colors_CX = colors[3:4]
 umap_x = umap(X)
 plot.umap(umap_x, labels=as.factor(Cx_truth), main = "A UMAP visualization of scRNA-seq data", colors = colors_CX)
 ```
@@ -28,7 +28,7 @@ plot.umap(umap_x, labels=as.factor(Cx_truth), main = "A UMAP visualization of sc
 # target data
 Cy_truth[which(Cy_truth==1)]= rep("L4", length(which(Cy_truth==1)))
 Cy_truth[which(Cy_truth==2)]= rep("L2/3 IT", length(which(Cy_truth==2)))
-colors_CY = colors[1:2]
+colors_CY = colors[3:4]
 umap_y = umap(Y)
 plot.umap(umap_y, labels=as.factor(Cy_truth), main = "A UMAP visualization of sc-methylation data", colors = colors_CY)
 ```
